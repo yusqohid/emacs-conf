@@ -57,6 +57,7 @@
   (column-number-mode 1)
   ;; (electric-pair-mode 1)
   (fido-vertical-mode 1)
+  (which-key-mode 1)
   (pixel-scroll-precision-mode 1)
   (recentf-mode 1)
   (savehist-mode 1)
@@ -65,7 +66,7 @@
   ;; (load-theme 'modus-vivendi t))
 
   :config
-  ;; (windmove-default-keybindings 'meta)
+  (windmove-default-keybindings 'control)
 
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
   (add-hook 'prog-mode-hook #'whitespace-mode)
@@ -95,7 +96,6 @@
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'line-number-current-line nil :background 'unspecified))
 
-  ;; Fungsi untuk menyalin teks yang diblok ke Clipboard sistem
   (defun my/copy-to-clipboard ()
     (interactive)
     (if (region-active-p)
