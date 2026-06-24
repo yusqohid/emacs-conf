@@ -19,7 +19,10 @@
      "aec7b55f2a13307a55517fdf08438863d694550565dee23181d2ebd973ebd6b8"
      "f1e8339b04aef8f145dd4782d03499d9d716fdc0361319411ac2efc603249326"
      default))
- '(package-selected-packages nil)
+ '(evil-undo-system 'undo-redo)
+ '(package-selected-packages
+   '(base16-theme company doom-themes evil go-mode hl-todo magit undo-fu
+                  undo-fu-session))
  '(warning-suppress-types '((initialization)))
  '(whitespace-style
    '(face trailing tabs spaces lines newline missing-newline-at-eof empty

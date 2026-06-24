@@ -4,15 +4,21 @@
 
 (require 'package)
 (add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/"))
 
 (require 'use-package)
 (setq use-package-always-ensure t)
 
+(unless (package-installed-p 'evil)
+  (package-install 'evil))
+
+;; Enable Evil
+(require 'evil)
+;; (evil-mode 1)
+
 (use-package company
   :ensure t
-  :config
-  (which-key-mode 1))
+)
 
 ;; (use-package undo-fu
 ;;   :ensure t)
@@ -122,7 +128,8 @@
               (local-set-key (kbd "<f5>") #'compile)))
 
   (keymap-set global-map "C-c n" #'display-line-numbers-mode)
-  (keymap-set global-map "C-c e" #'my/open-init-file)
+  (keymap-set global-map "C-c a" #'my/open-init-file)
+  (keymap-set global-map "C-c v" #'evil-mode)
   (keymap-set global-map "C-c f r" #'recentf-open)
   (keymap-set global-map "C-S-c" #'my/copy-to-clipboard)
   (keymap-set global-map "C-S-v" #'my/paste-from-clipboard)
