@@ -8,11 +8,6 @@
 ;;  (setq corfu-auto t
 ;;        corfu-auto-delay 0.4
 ;;        corfu-quit-no-match 'separator))
-(use-package multiple-cursors
-  :bind
-  (("C->" . mc/mark-next-like-this)
-   ("C-<" . mc/mark-previous-like-this)
-   ("C-c C->" . mc/mark-all-like-this)))
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
@@ -20,6 +15,10 @@
 
 (use-package evil
   :bind (("C-c v" . evil-mode)))
+
+(use-package vterm
+  :config
+  (setq vterm-shell (executable-find "fish")))
 
 (use-package treemacs
   :bind (("C-c o p" . treemacs)))
@@ -38,6 +37,12 @@
 
 (use-package org-modern
   :hook (org-mode . org-modern-mode))
+
+(use-package multiple-cursors
+  :bind
+  (("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C->" . mc/mark-all-like-this)))
 
 (use-package org
   :ensure nil
@@ -75,8 +80,21 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-pine t)
+  ;; (load-theme 'doom-badger t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
+
+(use-package ef-themes
+  :ensure t
+  :init
+  (ef-themes-take-over-modus-themes-mode 1)
+  :bind
+   (("C-<f5>" . modus-themes-select)
+   ("M-<f5>" . modus-themes-load-random))
+  :config
+  ;; All customisations here.
+  (setq modus-themes-mixed-fonts t)
+  (setq modus-themes-italic-constructs t)
+  (modus-themes-load-theme 'ef-dark))
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode))
@@ -87,7 +105,7 @@
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "MesloLGM Nerd Font-16"))
+  (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font-14"))
   (column-number-mode 1)
   (repeat-mode 1)
   ;; (electric-pair-mode 1)
@@ -127,8 +145,8 @@
   ;; (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   
   (with-eval-after-load 'eglot
-  (define-key eglot-mode-map (kbd "M-<down>") #'flymake-goto-next-error)
-  (define-key eglot-mode-map (kbd "M-<up>") #'flymake-goto-prev-error))
+  (define-key eglot-mode-map (kbd "M-n") #'flymake-goto-next-error)
+  (define-key eglot-mode-map (kbd "M-p") #'flymake-goto-prev-error))
 
   (with-eval-after-load 'display-line-numbers
     (set-face-attribute 'line-number nil :background 'unspecified)

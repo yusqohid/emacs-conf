@@ -11,9 +11,12 @@
      "456697e914823ee45365b843c89fbc79191fdbaff471b29aad9dcbe0ee1d5641"
      "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(package-selected-packages
-   '(auctex base16-theme company corfu diff-hl doom-themes evil go-mode hl-todo
-            magit markdown-mode move-text multiple-cursors org-modern php-mode
-            treemacs undo-fu undo-fu-session web-mode yasnippet)))
+   '(auctex base16-theme company corfu diff-hl doom-themes ef-themes evil go-mode
+            hl-todo magit markdown-mode move-text multiple-cursors org-modern
+            php-mode treemacs undo-fu undo-fu-session vterm web-mode yasnippet))
+ '(whitespace-style
+   '(face trailing tabs spaces lines missing-newline-at-eof empty indentation
+          space-after-tab space-before-tab space-mark tab-mark)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
