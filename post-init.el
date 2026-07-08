@@ -20,12 +20,9 @@
   :config
   (setq vterm-shell (executable-find "fish")))
 
-(use-package treemacs
-  :bind (("C-c o p" . treemacs)))
-
-(use-package yasnippet
-  :init
-  (yas-global-mode 1))
+;; (use-package yasnippet
+;;   :init
+;;   (yas-global-mode 1))
 
 (use-package diff-hl
   :hook ((prog-mode . diff-hl-mode)
@@ -54,23 +51,23 @@
   :config
   (add-to-list 'org-src-lang-modes '("rust" . rust-ts)))
 
-(use-package tex
-  :ensure auctex
-  :hook (LaTeX-mode . visual-line-mode)
-  :hook (LaTeX-mode . flyspell-mode)
-  :hook (LaTeX-mode . LaTeX-math-mode)
-  :config
-  (setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-master nil)
-  (setq TeX-view-program-selection
-      '((output-pdf "xdg-open")))
-
-  ;; gunakan PDF
-  (setq TeX-PDF-mode t)
-
-  ;; compile dengan latexmk
-  (setq TeX-command-default "LatexMk"))
+;; (use-package tex
+;;   :ensure auctex
+;;   :hook (LaTeX-mode . visual-line-mode)
+;;   :hook (LaTeX-mode . flyspell-mode)
+;;   :hook (LaTeX-mode . LaTeX-math-mode)
+;;   :config
+;;   (setq TeX-auto-save t)
+;;   (setq TeX-parse-self t)
+;;   (setq-default TeX-master nil)
+;;   (setq TeX-view-program-selection
+;;       '((output-pdf "xdg-open")))
+;; 
+;;   ;; gunakan PDF
+;;   (setq TeX-PDF-mode t)
+;; 
+;;   ;; compile dengan latexmk
+;;   (setq TeX-command-default "LatexMk"))
 
 (use-package undo-fu)
 (use-package undo-fu-session
@@ -78,13 +75,12 @@
   :config
   (undo-fu-session-global-mode))
 
-(use-package doom-themes
-  :config
-  ;; (load-theme 'doom-badger t)
-  (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification.
+;; (use-package doom-themes
+;;   :config
+;;   ;; (load-theme 'doom-badger t)
+;;   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
 (use-package ef-themes
-  :ensure t
   :init
   (ef-themes-take-over-modus-themes-mode 1)
   :bind
@@ -93,8 +89,8 @@
   :config
   ;; All customisations here.
   (setq modus-themes-mixed-fonts t)
-  (setq modus-themes-italic-constructs t)
-  (modus-themes-load-theme 'ef-dark))
+  (setq modus-themes-italic-constructs t))
+  ;; (modus-themes-load-theme 'ef-dark)
 
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode))
@@ -108,7 +104,7 @@
   (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font-14"))
   (column-number-mode 1)
   (repeat-mode 1)
-  ;; (electric-pair-mode 1)
+  (electric-pair-mode 1)
   (fido-vertical-mode 1)
   (which-key-mode 1)
   (pixel-scroll-precision-mode 1)
@@ -117,13 +113,10 @@
   (global-auto-revert-mode 1)
   (delete-selection-mode 1)
   (save-place-mode 1)
-  ;;(load-theme 'modus-operandi t))
+  (load-theme 'modus-vivendi t)
 
   :config
-  ;; (windmove-default-keybindings 'control)
-
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-  ;;(add-hook 'text-mode-hook #'display-line-numbers-mode)
   ;;(add-hook 'prog-mode-hook #'whitespace-mode)
 
   (add-hook 'emacs-lisp-mode-hook #'hs-minor-mode)
@@ -143,7 +136,7 @@
                 tab-width 4)
 
   ;; (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-  
+
   (with-eval-after-load 'eglot
   (define-key eglot-mode-map (kbd "M-n") #'flymake-goto-next-error)
   (define-key eglot-mode-map (kbd "M-p") #'flymake-goto-prev-error))
@@ -181,3 +174,4 @@
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.[ch]\\'" . c-ts-mode))
