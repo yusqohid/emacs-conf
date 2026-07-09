@@ -12,9 +12,9 @@
      "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(package-selected-packages
    '(auctex base16-theme company corfu diff-hl doom-themes ef-themes evil go-mode
-            hl-todo magit markdown-mode move-text multiple-cursors org-bullets
-            org-modern php-mode treemacs undo-fu undo-fu-session vterm web-mode
-            yasnippet))
+            hl-todo magit markdown-mode move-text multiple-cursors
+            nordic-night-theme org-bullets org-modern php-mode treemacs undo-fu
+            undo-fu-session vterm web-mode yasnippet))
  '(whitespace-style
    '(face trailing tabs spaces lines missing-newline-at-eof empty indentation
           space-after-tab space-before-tab space-mark tab-mark)))

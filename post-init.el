@@ -4,10 +4,10 @@
 
 (use-package corfu
   :init
-  (global-corfu-mode))
-;;  (setq corfu-auto t
-;;        corfu-auto-delay 0.4
-;;        corfu-quit-no-match 'separator))
+  (global-corfu-mode)
+  (setq corfu-auto t
+        corfu-auto-delay 0.4
+        corfu-quit-no-match 'separator))
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
@@ -80,6 +80,10 @@
 ;;   ;; (load-theme 'doom-badger t)
 ;;   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
+(use-package nordic-night-theme
+  :config
+  (load-theme 'nordic-night t))
+
 (use-package ef-themes
   :init
   (ef-themes-take-over-modus-themes-mode 1)
@@ -101,7 +105,8 @@
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font-14"))
+  ;;(add-to-list 'default-frame-alist '(font . "SauceCodePro Nerd Font-14"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Output Minimal-14"))
   (column-number-mode 1)
   (repeat-mode 1)
   (electric-pair-mode 1)
@@ -113,7 +118,7 @@
   (global-auto-revert-mode 1)
   (delete-selection-mode 1)
   (save-place-mode 1)
-  (load-theme 'modus-vivendi t)
+  ;; (load-theme 'modus-vivendi t)
 
   :config
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -145,6 +150,27 @@
     (set-face-attribute 'line-number nil :background 'unspecified)
     (set-face-attribute 'line-number-current-line nil :background 'unspecified))
 
+  ;; CUSTOM FUNCTION
+  (defvar my/light-theme 'modus-operandi)
+  (defvar my/dark-theme 'modus-vivendi)
+
+  (defun my/toggle-theme ()
+  (interactive)
+  (if (member 'modus-vivendi custom-enabled-themes)
+      (progn
+        (disable-theme 'modus-vivendi)
+        (load-theme 'modus-operandi t))
+    (progn
+      (disable-theme 'modus-operandi)
+      (load-theme 'modus-vivendi t)))
+
+  (set-face-attribute 'line-number nil
+                      :background 'unspecified)
+  (set-face-attribute 'line-number-current-line nil
+                      :background 'unspecified))
+  
+  (keymap-set global-map "<f6>" #'my/toggle-theme)
+  
   (defun my/copy-to-clipboard ()
     (interactive)
     (if (region-active-p)
@@ -169,7 +195,8 @@
   (keymap-set global-map "C-S-c" #'my/copy-to-clipboard)
   (keymap-set global-map "C-S-v" #'my/paste-from-clipboard)
   (keymap-set global-map "C-c ," #'duplicate-line)
-)
+  )
+
 ;; Treesitter
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
