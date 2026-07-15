@@ -1,4 +1,5 @@
 *
 !post-init.el
-!custom.el
+!early-init.el
+!init.el
 !.gitignore
