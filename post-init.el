@@ -5,8 +5,8 @@
 (use-package corfu
   :init
     (setq corfu-auto t
-        corfu-auto-delay 0.4
-        corfu-quit-no-match 'separator)
+          corfu-auto-delay 0.4
+          corfu-quit-no-match 'separator)
     (global-corfu-mode)
     (corfu-popupinfo-mode))
 
@@ -20,10 +20,13 @@
   :config
   (setq vterm-shell (executable-find "fish")))
 
-(use-package yasnippet :init (yas-global-mode 1))
-(use-package vertico :init (vertico-mode))
-(use-package orderless :custom (completion-styles '(orderless basic)))
+(use-package yasnippet  :init (yas-global-mode 1))
+(use-package vertico    :init (vertico-mode))
+(use-package orderless  :custom (completion-styles '(orderless basic)))
 (use-package marginalia :init (marginalia-mode))
+(use-package hl-todo    :hook (prog-mode . hl-todo-mode))
+(use-package magit      :commands magit)
+(use-package avy        :bind ("C-;" . 'avy-goto-char-2))
 
 (use-package diff-hl
   :hook ((prog-mode . diff-hl-mode)
@@ -38,6 +41,10 @@
   (("C->" . mc/mark-next-like-this)
    ("C-<" . mc/mark-previous-like-this)
    ("C-c C->" . mc/mark-all-like-this)))
+
+(use-package markdown-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
 
 (use-package org
   :ensure nil
@@ -60,10 +67,10 @@
 ;;   (setq-default TeX-master nil)
 ;;   (setq TeX-view-program-selection
 ;;       '((output-pdf "xdg-open")))
-;; 
+;;
 ;;   ;; gunakan PDF
 ;;   (setq TeX-PDF-mode t)
-;; 
+;;
 ;;   ;; compile dengan latexmk
 ;;   (setq TeX-command-default "LatexMk"))
 
@@ -75,7 +82,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-badger t)
+  ;;(load-theme 'doom-badger t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
 ;; (use-package nordic-night-theme
@@ -92,14 +99,8 @@
   ;; All customisations here.
   (setq modus-themes-mixed-fonts t)
   (setq modus-themes-italic-constructs t)
-  ;;(modus-themes-load-theme 'modus-vivendi)
+  (modus-themes-load-theme 'modus-vivendi-tritanopia)
   )
-
-(use-package hl-todo :hook (prog-mode . hl-todo-mode))
-
-(use-package magit :commands magit)
-
-(use-package avy :bind ("C-;" . 'avy-goto-char-2))
 
 (use-package emacs
   :ensure nil
@@ -118,17 +119,14 @@
 
   :config
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
-  ;;(add-hook 'prog-mode-hook #'whitespace-mode)
-
   (add-hook 'emacs-lisp-mode-hook #'hs-minor-mode)
 
   (setq default-directory "~/Dev/"
         dired-kill-when-opening-new-dired-buffer t
         completion-ignore-case t)
-
-  (setq explicit-shell-file-name "/usr/bin/bash"
-        shell-file-name "/usr/bin/bash")
-  ;; Stop Emacs from overwriting OS clipboard
+  (setq dired-omit-files
+        (concat dired-omit-files "\\|^\\.[^.].*"))
+  (setq shell-file-name "/usr/bin/bash")
   (setq select-enable-clipboard nil
         select-enable-primary nil)
   (setq debug-on-error t)
@@ -139,6 +137,8 @@
                 c-default-style "k&r"
                 tab-width 4)
   (setq-default line-spacing 0.2)
+  (add-hook 'vterm-mode-hook (lambda() (setq-local line-spacing nil)))
+
 
   ;; (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
 
@@ -158,37 +158,25 @@
   (with-eval-after-load 'display-line-numbers
     (my/apply-line-number-faces))
 
-  (advice-add 'load-theme :after #'my/apply-line-number-faces)
+  (add-hook 'enable-theme-functions #'my/apply-line-number-faces)
   (keymap-set global-map "<f5>" #'modus-themes-toggle)
 
-  (defun my/copy-to-clipboard ()
-    (interactive)
-    (if (region-active-p)
-        (progn
-          (let ((select-enable-clipboard t))
-            (kill-ring-save (region-beginning) (region-end)))
-          (message "Text Copied to Clipboard"))
-      (message "Unable to Copy, Select text first!")))
-
-  (defun my/paste-from-clipboard ()
-    (interactive)
-    (insert (gui-get-selection 'CLIPBOARD)))
-
-  ;;(add-hook 'c-mode-hook 'eglot-ensure)
-
-  (keymap-set global-map "C-c n" #'display-line-numbers-mode)
-  (keymap-set global-map "C-c c" #'compile)
-  (keymap-set global-map "C-c r" #'recentf-open)
-  (keymap-set global-map "C-S-c" #'my/copy-to-clipboard)
-  (keymap-set global-map "C-S-v" #'my/paste-from-clipboard)
-  (keymap-set global-map "C-c ," #'duplicate-line)
+  (keymap-set global-map "C-c n"   #'display-line-numbers-mode)
+  (keymap-set global-map "C-c c"   #'compile)
+  (keymap-set global-map "C-c g"   #'eglot)
+  (keymap-set global-map "C-c o"   #'olivetti-mode)
+  (keymap-set global-map "C-c r"   #'recentf-open)
+  (keymap-set global-map "C-S-c"   #'clipboard-kill-ring-save)
+  (keymap-set global-map "C-S-v"   #'clipboard-yank)
+  (keymap-set global-map "C-c ,"   #'duplicate-line)
+  (keymap-set global-map "C-c d w"   #'delete-trailing-whitespace)
   )
 
 ;; Treesitter
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
-(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
@@ -196,3 +184,7 @@
 (use-package odin-ts-mode
   :vc (:url "https://github.com/Sampie159/odin-ts-mode")
   :mode "\\.odin\\'")
+
+(use-package copilot
+  :vc (:url "https://github.com/copilot-emacs/copilot.el"
+            :rev :newest :branch "main"))
