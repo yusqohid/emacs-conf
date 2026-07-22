@@ -17,16 +17,31 @@
 (use-package evil :bind (("C-c v" . evil-mode)))
 
 (use-package vterm
+  :bind
+  (:map vterm-mode-map
+        ("C-S-v" . my-vterm-paste))
   :config
   (setq vterm-shell (executable-find "fish")))
 
+(use-package vertico
+  :init (vertico-mode)
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)))
+
 (use-package yasnippet  :init (yas-global-mode 1))
-(use-package vertico    :init (vertico-mode))
 (use-package orderless  :custom (completion-styles '(orderless basic)))
 (use-package marginalia :init (marginalia-mode))
 (use-package hl-todo    :hook (prog-mode . hl-todo-mode))
 (use-package magit      :commands magit)
-(use-package avy        :bind ("C-;" . 'avy-goto-char-2))
+(use-package avy        :bind ("C-;"   . avy-goto-char-2))
+(use-package consult
+  :bind
+  (("M-g i" . consult-imenu)
+   ("M-s l" . consult-line)
+   ("M-s r" . consult-ripgrep)
+   ("M-s f" . consult-fd)
+   ("C-x b" . consult-buffer)
+   ("C-x p b" . consult-project-buffer)))
 
 (use-package diff-hl
   :hook ((prog-mode . diff-hl-mode)
@@ -82,30 +97,13 @@
 
 (use-package doom-themes
   :config
-  ;;(load-theme 'doom-badger t)
+  (load-theme 'doom-badger t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
-
-;; (use-package nordic-night-theme
-;;   :config
-;;   (load-theme 'nordic-night t))
-
-(use-package ef-themes
-  :init
-  (ef-themes-take-over-modus-themes-mode 1)
-  :bind
-   (("C-<f5>" . modus-themes-select)
-   ("M-<f5>" . modus-themes-load-random))
-  :config
-  ;; All customisations here.
-  (setq modus-themes-mixed-fonts t)
-  (setq modus-themes-italic-constructs t)
-  (modus-themes-load-theme 'modus-vivendi-tritanopia)
-  )
 
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "Iosevka Output Minimal-14"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-18"))
   (column-number-mode 1)
   (repeat-mode 1)
   (electric-pair-mode 1)
@@ -116,6 +114,7 @@
   (global-auto-revert-mode 1)
   (delete-selection-mode 1)
   (save-place-mode 1)
+  ;;(load-theme 'modus-vivendi-deuteranopia t)
 
   :config
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
@@ -124,8 +123,6 @@
   (setq default-directory "~/Dev/"
         dired-kill-when-opening-new-dired-buffer t
         completion-ignore-case t)
-  (setq dired-omit-files
-        (concat dired-omit-files "\\|^\\.[^.].*"))
   (setq shell-file-name "/usr/bin/bash")
   (setq select-enable-clipboard nil
         select-enable-primary nil)
@@ -149,6 +146,7 @@
   ;; CUSTOM FUNCTION
 (defun my/apply-line-number-faces (&rest _)
   (interactive)
+  (set-face-background 'fringe (face-background 'default))
   (set-face-attribute 'line-number nil
                       :background 'unspecified
                       :foreground "#5f5f5f")
@@ -161,6 +159,14 @@
   (add-hook 'enable-theme-functions #'my/apply-line-number-faces)
   (keymap-set global-map "<f5>" #'modus-themes-toggle)
 
+  (setq modus-themes-common-palette-overrides
+        '((variable white)))
+  
+  (defun my-vterm-paste ()
+  (interactive)
+  (when-let ((text (gui-get-selection 'CLIPBOARD)))
+    (vterm-send-string text)))
+
   (keymap-set global-map "C-c n"   #'display-line-numbers-mode)
   (keymap-set global-map "C-c c"   #'compile)
   (keymap-set global-map "C-c g"   #'eglot)
@@ -169,13 +175,14 @@
   (keymap-set global-map "C-S-c"   #'clipboard-kill-ring-save)
   (keymap-set global-map "C-S-v"   #'clipboard-yank)
   (keymap-set global-map "C-c ,"   #'duplicate-line)
+  (keymap-set global-map "C-c p"   #'project-find-file)
   (keymap-set global-map "C-c d w"   #'delete-trailing-whitespace)
   )
 
 ;; Treesitter
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
 
-(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.[jt]s\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.[jt]sx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.php\\'" . php-ts-mode))
