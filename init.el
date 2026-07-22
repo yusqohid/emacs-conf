@@ -509,7 +509,7 @@ This should be called after changing `auto-save-list-file-prefix'."
 
 ;; dired-omit-mode
 (setq dired-omit-verbose nil
-      dired-omit-files (concat "\\`[.]\\'"))
+      dired-omit-files (concat "\\`[.]"))
 
 (setq ls-lisp-verbosity nil)
 (setq ls-lisp-dirs-first t)
