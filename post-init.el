@@ -121,6 +121,7 @@
   (add-hook 'emacs-lisp-mode-hook #'hs-minor-mode)
 
   (setq default-directory "~/Dev/"
+        dired-dwim-target t
         dired-kill-when-opening-new-dired-buffer t
         completion-ignore-case t)
   (setq shell-file-name "/usr/bin/bash")
@@ -136,12 +137,15 @@
   (setq-default line-spacing 0.2)
   (add-hook 'vterm-mode-hook (lambda() (setq-local line-spacing nil)))
 
-
-  ;; (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-
-  (with-eval-after-load 'eglot
-    (keymap-set eglot-mode-map "M-n" #'flymake-goto-next-error)
-    (keymap-set eglot-mode-map "M-p" #'flymake-goto-prev-error))
+(use-package eglot
+  :ensure nil
+  :init
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
+  :bind (:map eglot-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error))
+  :config
+  (setq eglot-inlay-hints-mode -1))
 
   ;; CUSTOM FUNCTION
 (defun my/apply-line-number-faces (&rest _)
