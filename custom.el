@@ -13,11 +13,11 @@
      "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(olivetti-style 'fancy)
  '(package-selected-packages
-   '(2048-game avy consult copilot corfu diff-hl doom-themes evil gruvbox-theme
-               hl-todo lorem-ipsum magit marginalia markdown-mode move-text
-               multiple-cursors nordic-night-theme odin-ts-mode olivetti
-               orderless org-modern org-superstar prisma-ts-mode undo-fu
-               undo-fu-session vertico visual-fill-column vterm web-mode
+   '(2048-game avy consult copilot corfu diff-hl doom-themes evil expand-region
+               gruvbox-theme hl-todo lorem-ipsum magit marginalia markdown-mode
+               move-text multiple-cursors nordic-night-theme odin-ts-mode
+               olivetti orderless org-modern org-superstar prisma-ts-mode
+               undo-fu undo-fu-session vertico visual-fill-column vterm web-mode
                yasnippet-snippets))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main")

@@ -51,10 +51,12 @@
   (diff-hl-flydiff-mode)
   (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
 
+(use-package expand-region :bind (("C-=" . er/expand-region)))
 (use-package multiple-cursors
   :bind
   (("C->" . mc/mark-next-like-this)
    ("C-<" . mc/mark-previous-like-this)
+   ("C-." . mc/mark-next-like-this-symbol)
    ("C-c C->" . mc/mark-all-like-this)))
 
 (use-package markdown-mode
@@ -97,7 +99,7 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-badger t)
+  (load-theme 'doom-tomorrow-night t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
 (use-package emacs
@@ -137,16 +139,6 @@
   (setq-default line-spacing 0.2)
   (add-hook 'vterm-mode-hook (lambda() (setq-local line-spacing nil)))
 
-(use-package eglot
-  :ensure nil
-  :init
-  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
-  :bind (:map eglot-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error))
-  :config
-  (setq eglot-inlay-hints-mode -1))
-
   ;; CUSTOM FUNCTION
 (defun my/apply-line-number-faces (&rest _)
   (interactive)
@@ -181,7 +173,17 @@
   (keymap-set global-map "C-c ,"   #'duplicate-line)
   (keymap-set global-map "C-c p"   #'project-find-file)
   (keymap-set global-map "C-c d w"   #'delete-trailing-whitespace)
+  (keymap-set global-map "M-z"     #'zap-up-to-char)
   )
+
+(use-package eglot
+  :ensure nil
+  :config
+  (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
+  (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
+  :bind (:map eglot-mode-map
+              ("M-n" . flymake-goto-next-error)
+              ("M-p" . flymake-goto-prev-error)))
 
 ;; Treesitter
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))
@@ -199,3 +201,6 @@
 (use-package copilot
   :vc (:url "https://github.com/copilot-emacs/copilot.el"
             :rev :newest :branch "main"))
+
+(with-eval-after-load 'go-ts-mode
+  (setq go-ts-mode-indent-offset 4))
