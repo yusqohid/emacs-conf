@@ -14,8 +14,6 @@
   :bind (("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))
 
-(use-package evil :bind (("C-c v" . evil-mode)))
-
 (use-package vterm
   :bind
   (:map vterm-mode-map
@@ -28,12 +26,18 @@
   :bind (:map vertico-map
               ("DEL" . vertico-directory-delete-char)))
 
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-pcm-leading-wildcard t))
+
+(use-package evil :bind (("C-c v" . evil-mode)))
 (use-package yasnippet  :init (yas-global-mode 1))
-(use-package orderless  :custom (completion-styles '(orderless basic)))
 (use-package marginalia :init (marginalia-mode))
 (use-package hl-todo    :hook (prog-mode . hl-todo-mode))
 (use-package magit      :commands magit)
-(use-package avy        :bind ("C-;"   . avy-goto-char-2))
+(use-package avy        :bind ("M-j"   . avy-goto-char-2))
 (use-package consult
   :bind
   (("M-g i" . consult-imenu)
@@ -69,6 +73,7 @@
   :hook (org-mode . org-indent-mode)
   :init
   (setq org-src-tab-acts-natively t
+        org-agenda-files '("~/org/")
         org-edit-src-content-indentation 0)
   :config
   (add-to-list 'org-src-lang-modes '("rust" . rust-ts)))
@@ -102,10 +107,14 @@
   (load-theme 'doom-tomorrow-night t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
+(use-package mood-line
+  :config (mood-line-mode)
+  :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
+
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-18"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-20"))
   (column-number-mode 1)
   (repeat-mode 1)
   (electric-pair-mode 1)
@@ -174,6 +183,7 @@
   (keymap-set global-map "C-c p"   #'project-find-file)
   (keymap-set global-map "C-c d w"   #'delete-trailing-whitespace)
   (keymap-set global-map "M-z"     #'zap-up-to-char)
+  (keymap-set global-map "C-x C-b" #'ibuffer)
   )
 
 (use-package eglot
@@ -182,8 +192,9 @@
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   :bind (:map eglot-mode-map
-              ("M-n" . flymake-goto-next-error)
-              ("M-p" . flymake-goto-prev-error)))
+              ("M-n"   . flymake-goto-next-error)
+              ("C-c f" . eglot-format)
+              ("M-p"   . flymake-goto-prev-error)))
 
 ;; Treesitter
 (add-to-list 'major-mode-remap-alist '(c-mode . c-ts-mode))

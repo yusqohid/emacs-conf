@@ -4,6 +4,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(completion-category-overrides '((file (styles partial-completion))) nil nil "Customized with use-package orderless")
  '(custom-safe-themes
    '("96f69937feec9ec89b879f19ea38c65ee0f85f418b41212bf8e5c75f9ca82bb6"
      "6963de2ec3f8313bb95505f96bf0cf2025e7b07cefdb93e3d2e348720d401425"
@@ -15,10 +16,10 @@
  '(package-selected-packages
    '(2048-game avy consult copilot corfu diff-hl doom-themes evil expand-region
                gruvbox-theme hl-todo lorem-ipsum magit marginalia markdown-mode
-               move-text multiple-cursors nordic-night-theme odin-ts-mode
-               olivetti orderless org-modern org-superstar prisma-ts-mode
-               undo-fu undo-fu-session vertico visual-fill-column vterm web-mode
-               yasnippet-snippets))
+               mood-line move-text multiple-cursors nordic-night-theme
+               odin-ts-mode olivetti orderless org-modern org-superstar
+               prisma-ts-mode undo-fu undo-fu-session vertico visual-fill-column
+               vterm web-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main")
      (odin-ts-mode :url "https://github.com/Sampie159/odin-ts-mode")))
