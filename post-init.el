@@ -4,11 +4,11 @@
 
 (use-package corfu
   :init
-    (setq corfu-auto t
-          corfu-auto-delay 0.4
-          corfu-quit-no-match 'separator)
-    (global-corfu-mode)
-    (corfu-popupinfo-mode))
+  (setq corfu-auto t
+        corfu-auto-delay 0.4
+        corfu-quit-no-match 'separator)
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
@@ -30,6 +30,7 @@
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
 
 (use-package evil :bind (("C-c v" . evil-mode)))
@@ -107,14 +108,15 @@
   (load-theme 'doom-tomorrow-night t)
   (doom-themes-org-config))  ;; Corrects (and improves) org-mode's native fontification
 
-(use-package mood-line
-  :config (mood-line-mode)
-  :custom (mood-line-glyph-alist mood-line-glyphs-fira-code))
+(use-package auto-dark
+  :config
+  (setq auto-dark-themes '((doom-tomorrow-night) (doom-one-light)))
+  (auto-dark-mode t))
 
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-20"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-18"))
   (column-number-mode 1)
   (repeat-mode 1)
   (electric-pair-mode 1)
@@ -129,7 +131,10 @@
 
   :config
   (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'prog-mode-hook #'subword-mode)
   (add-hook 'emacs-lisp-mode-hook #'hs-minor-mode)
+  (with-eval-after-load 'tramp
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path))
 
   (setq default-directory "~/Dev/"
         dired-dwim-target t
@@ -192,8 +197,8 @@
   (add-to-list 'eglot-ignored-server-capabilities :documentOnTypeFormattingProvider)
   (add-to-list 'eglot-ignored-server-capabilities :documentHighlightProvider)
   :bind (:map eglot-mode-map
-              ("M-n"   . flymake-goto-next-error)
               ("C-c f" . eglot-format)
+              ("M-n"   . flymake-goto-next-error)
               ("M-p"   . flymake-goto-prev-error)))
 
 ;; Treesitter

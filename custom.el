@@ -14,12 +14,12 @@
      "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(olivetti-style 'fancy)
  '(package-selected-packages
-   '(2048-game avy consult copilot corfu diff-hl doom-themes evil expand-region
-               gruvbox-theme hl-todo lorem-ipsum magit marginalia markdown-mode
-               mood-line move-text multiple-cursors nordic-night-theme
-               odin-ts-mode olivetti orderless org-modern org-superstar
-               prisma-ts-mode undo-fu undo-fu-session vertico visual-fill-column
-               vterm web-mode yasnippet-snippets))
+   '(2048-game auto-dark avy consult copilot corfu diff-hl doom-themes evil
+               expand-region gruvbox-theme hl-todo lorem-ipsum lua-mode magit
+               marginalia markdown-mode mood-line move-text multiple-cursors
+               nordic-night-theme odin-ts-mode olivetti orderless org-modern
+               org-superstar prisma-ts-mode undo-fu undo-fu-session vertico
+               visual-fill-column vterm web-mode yasnippet-snippets))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main")
      (odin-ts-mode :url "https://github.com/Sampie159/odin-ts-mode")))
@@ -32,6 +32,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(font-lock-preprocessor-face ((t (:inherit normal :foreground "#c5c8c6"))))
  '(org-level-1 ((t (:inherit modus-themes-heading-1 :height 1.4))))
  '(org-level-2 ((t (:inherit modus-themes-heading-2 :extend nil :height 1.2)))))
 
