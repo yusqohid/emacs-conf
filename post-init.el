@@ -59,14 +59,17 @@
 (use-package expand-region :bind (("C-=" . er/expand-region)))
 (use-package multiple-cursors
   :bind
-  (("C->" . mc/mark-next-like-this)
-   ("C-<" . mc/mark-previous-like-this)
-   ("C-." . mc/mark-next-like-this-symbol)
-   ("C-c C->" . mc/mark-all-like-this)))
+  (("C-S-<down>"     . mc/mark-next-like-this)
+   ("C-S-<up>"       . mc/mark-previous-like-this)
+   ("C-."            . mc/mark-next-like-this-symbol)
+   ("C-c C-S-<down>" . mc/mark-all-like-this)))
 
 (use-package markdown-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+
+(use-package apheleia
+  :bind ("C-c f" . apheleia-format-buffer))
 
 (use-package org
   :ensure nil
@@ -116,7 +119,7 @@
 (use-package emacs
   :ensure nil
   :init
-  (add-to-list 'default-frame-alist '(font . "Iosevka Nerd Font-18"))
+  (add-to-list 'default-frame-alist '(font . "JetBrainsMono Nerd Font-16"))
   (column-number-mode 1)
   (repeat-mode 1)
   (electric-pair-mode 1)
@@ -144,6 +147,7 @@
   (setq select-enable-clipboard nil
         select-enable-primary nil)
   (setq debug-on-error t)
+  (setq duplicate-line-final-position 1)
 
   (setq-default indent-tabs-mode nil
                 c-basic-offset 4
@@ -177,18 +181,18 @@
   (when-let ((text (gui-get-selection 'CLIPBOARD)))
     (vterm-send-string text)))
 
-  (keymap-set global-map "C-c n"   #'display-line-numbers-mode)
-  (keymap-set global-map "C-c c"   #'compile)
-  (keymap-set global-map "C-c g"   #'eglot)
-  (keymap-set global-map "C-c o"   #'olivetti-mode)
-  (keymap-set global-map "C-c r"   #'recentf-open)
-  (keymap-set global-map "C-S-c"   #'clipboard-kill-ring-save)
-  (keymap-set global-map "C-S-v"   #'clipboard-yank)
-  (keymap-set global-map "C-c ,"   #'duplicate-line)
-  (keymap-set global-map "C-c p"   #'project-find-file)
-  (keymap-set global-map "C-c d w"   #'delete-trailing-whitespace)
-  (keymap-set global-map "M-z"     #'zap-up-to-char)
-  (keymap-set global-map "C-x C-b" #'ibuffer)
+  (keymap-set global-map "C-c n"        #'display-line-numbers-mode)
+  (keymap-set global-map "C-c c"        #'compile)
+  (keymap-set global-map "C-c g"        #'eglot)
+  (keymap-set global-map "C-c o"        #'olivetti-mode)
+  (keymap-set global-map "C-c r"        #'recentf-open)
+  (keymap-set global-map "C-S-c"        #'clipboard-kill-ring-save)
+  (keymap-set global-map "C-S-v"        #'clipboard-yank)
+  (keymap-set global-map "C-M-S-<down>" #'duplicate-dwim)
+  (keymap-set global-map "C-c p"        #'project-find-file)
+  (keymap-set global-map "C-c d w"      #'delete-trailing-whitespace)
+  (keymap-set global-map "M-z"          #'zap-up-to-char)
+  (keymap-set global-map "C-x C-b"      #'ibuffer)
   )
 
 (use-package eglot

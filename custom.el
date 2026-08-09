@@ -14,12 +14,13 @@
      "e27c9668d7eddf75373fa6b07475ae2d6892185f07ebed037eedf783318761d7" default))
  '(olivetti-style 'fancy)
  '(package-selected-packages
-   '(2048-game auto-dark avy consult copilot corfu diff-hl doom-themes evil
-               expand-region gruvbox-theme hl-todo lorem-ipsum lua-mode magit
-               marginalia markdown-mode mood-line move-text multiple-cursors
-               nordic-night-theme odin-ts-mode olivetti orderless org-modern
-               org-superstar prisma-ts-mode undo-fu undo-fu-session vertico
-               visual-fill-column vterm web-mode yasnippet-snippets))
+   '(2048-game apheleia auto-dark avy consult copilot corfu diff-hl doom-themes
+               evil expand-region gruvbox-theme hl-todo lorem-ipsum lua-mode
+               magit marginalia markdown-mode mood-line move-text
+               multiple-cursors nordic-night-theme odin-ts-mode olivetti
+               orderless org-modern org-superstar perspective prisma-ts-mode
+               undo-fu undo-fu-session vertico visual-fill-column vterm web-mode
+               yasnippet-snippets))
  '(package-vc-selected-packages
    '((copilot :url "https://github.com/copilot-emacs/copilot.el" :branch "main")
      (odin-ts-mode :url "https://github.com/Sampie159/odin-ts-mode")))
