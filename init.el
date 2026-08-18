@@ -38,10 +38,15 @@
 (setq duplicate-line-final-position 1
       completion-ignore-case t
       use-short-answers t
-	  imenu-flatten 'annotation
       shell-file-name "/usr/bin/bash"
+	  imenu-flatten 'annotation
 	  imenu-auto-rescan t
 	  use-package-enable-imenu-support t)
+
+;; Delete by moving to trash in interactive mode
+(setq delete-by-moving-to-trash (not noninteractive)
+	  remote-file-name-inhibit-delete-by-moving-to-trash t)
+
 (setq-default c-basic-offset 4
 			  c-ts-mode-indent-offset 4
 			  tab-width 4)
