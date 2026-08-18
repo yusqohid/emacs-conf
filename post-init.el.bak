@@ -4,22 +4,14 @@
 
 (use-package corfu
   :init
-  (setq corfu-auto t
-        corfu-auto-delay 0.4
-        corfu-quit-no-match 'separator)
+  ;; (setq corfu-auto t
+  ;;       corfu-quit-no-match 'separator)
   (global-corfu-mode)
   (corfu-popupinfo-mode))
 
 (use-package move-text
   :bind (("M-<up>" . move-text-up)
          ("M-<down>" . move-text-down)))
-
-(use-package vterm
-  :bind
-  (:map vterm-mode-map
-        ("C-S-v" . my-vterm-paste))
-  :config
-  (setq vterm-shell (executable-find "fish")))
 
 (use-package vertico
   :init (vertico-mode)
@@ -33,7 +25,8 @@
   (completion-category-defaults nil)
   (completion-pcm-leading-wildcard t))
 
-(use-package evil :bind (("C-c v" . evil-mode)))
+(use-package ghostel    :bind (("C-c t" . ghostel)))
+(use-package evil       :bind (("C-c v" . evil-mode)))
 (use-package yasnippet  :init (yas-global-mode 1))
 (use-package marginalia :init (marginalia-mode))
 (use-package hl-todo    :hook (prog-mode . hl-todo-mode))
@@ -155,7 +148,6 @@
                 c-default-style "k&r"
                 tab-width 4)
   (setq-default line-spacing 0.2)
-  (add-hook 'vterm-mode-hook (lambda() (setq-local line-spacing nil)))
 
   ;; CUSTOM FUNCTION
 (defun my/apply-line-number-faces (&rest _)
@@ -176,11 +168,6 @@
   (setq modus-themes-common-palette-overrides
         '((variable white)))
   
-  (defun my-vterm-paste ()
-  (interactive)
-  (when-let ((text (gui-get-selection 'CLIPBOARD)))
-    (vterm-send-string text)))
-
   (keymap-set global-map "C-c n"        #'display-line-numbers-mode)
   (keymap-set global-map "C-c c"        #'compile)
   (keymap-set global-map "C-c g"        #'eglot)
