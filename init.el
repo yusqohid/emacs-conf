@@ -22,7 +22,7 @@
 (set-face-background 'fringe (face-background 'default))
 
 ;; QoL
-(fido-vertical-mode 1)
+;;(fido-vertical-mode 1)
 (which-key-mode 1)
 (repeat-mode 1)
 (electric-pair-mode 1)
@@ -130,6 +130,37 @@
 (use-package diff-hl
   :hook ((prog-mode  . diff-hl-mode)
          (text-mode  . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode))
+  :config
+  (diff-hl-flydiff-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+
+(use-package vertico
+  :init (vertico-mode)
+  :bind (:map vertico-map
+              ("DEL" . vertico-directory-delete-char)))
+
+(use-package orderless
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles partial-completion))))
+  (completion-category-defaults nil)
+  (completion-pcm-leading-wildcard t))
+
+(use-package marginalia :init (marginalia-mode))
+
+(use-package consult
+  :bind
+  (("M-g i" . consult-imenu)
+   ("M-s l" . consult-line)
+   ("M-s r" . consult-ripgrep)
+   ("M-s f" . consult-fd)
+   ("C-x b" . consult-buffer)
+   ("C-x p b" . consult-project-buffer)))
+
+(use-package diff-hl
+  :hook ((prog-mode . diff-hl-mode)
+         (text-mode . diff-hl-mode)
          (dired-mode . diff-hl-dired-mode))
   :config
   (diff-hl-flydiff-mode)
